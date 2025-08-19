@@ -55,12 +55,15 @@ const sessions = {};
 
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
 
-// MySQL Connection
+const mysql = require("mysql2");
+
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "dbmsl",
+  host: "sql306.infinityfree.com",
+  port: 3306,
+  user: "if0_39743019",
+  password: "9WZqZixVgrP",
+  database: "if0_39743019_nephasoft",
+  ssl: { rejectUnauthorized: true } // SkySQL requires SSL
 });
 
 db.connect((err) => {
