@@ -25,7 +25,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://nephosoft.vercel.app",
+    origin: "https://nephasoft.vercel.app",
     credentials: true, // allow cookies and credentials
   })
 );
