@@ -25,7 +25,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend origin here
+    origin: "https://nephosoft.vercel.app",
     credentials: true, // allow cookies and credentials
   })
 );
