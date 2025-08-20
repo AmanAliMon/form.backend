@@ -4,6 +4,19 @@
     { "src": "index.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/index.js" }
+   {
+      "src": "*",
+      "headers": {
+        "Access-Control-Allow-Origin": "https://nephasoft.vercel.app",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Credentials": "true"
+      },
+      "dest": "server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "index.js"
+    }
   ]
 }
