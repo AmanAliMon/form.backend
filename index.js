@@ -23,17 +23,23 @@ function identifer() {
 
 const app = express();
 
-app.use(cors({
-  origin: "https://nephasoft.vercel.app",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+const allowedOrigins = [
+"https://nephasoft.vercel.app" 
+];
 
-app.options("*", cors({
-  origin: "https://nephasoft.vercel.app",
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
+
 
 app.use(bodyParser.json());
 app.use((req, res, next) => {
