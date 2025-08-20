@@ -23,46 +23,30 @@ function identifer() {
 
 const app = express();
 
-const allowedOrigins = [
-"https://nephasoft.vercel.app" 
-];
+const corsOptions = {
+  origin: "https://nephasoft.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true);
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // 👈 handle preflight everywhere
 
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
-}));
-
-
-app.use(bodyParser.json());
-app.use((req, res, next) => {
-  console.log("SessionID:", req.sessionID);
-  console.log(
-    "User in session:",
-    req.session ? req.session.user : "No session"
-  );
-  next();
-});
 app.use(
   session({
-    secret: "secret-key", // use env in pro  duction
+    secret: "secret-key", // move to env in prod
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none", // 👈 required for cross-site cookies
+      secure: true,     // 👈 required on Vercel/HTTPS
     },
   })
 );
-
+//ddd
 const sessions = {};
 
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
