@@ -41,19 +41,31 @@ app.use((req, res, next) => {
   );
   next();
 });
+const MySQLStore = require("express-mysql-session")(session);
+
+const sessionStore = new MySQLStore({
+  host: "serverless-eu-west-3.sysp0000.db1.skysql.com", // your SkySQL host
+  port: 4024, // your SkySQL port
+  user: "your_username",
+  password: "your_password",
+  database: "dbmsl",
+  ssl: { rejectUnauthorized: true }, // SkySQL requires SSL
+});
+
 app.use(
   session({
-    secret: "secret-key", // use env in pro  duction
+    secret: "secret-key",
     resave: false,
     saveUninitialized: false,
+    store: sessionStore, // ✅ now sessions are persistent
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none", // ✅ needed for frontend-backend across domains
+      secure: true, // ✅ required on Vercel (https only)
     },
   })
 );
-
 const sessions = {};
 
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
