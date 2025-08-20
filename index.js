@@ -29,12 +29,12 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 app.options("*", cors({
   origin: "https://nephasoft.vercel.app",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  credentials: true
 }));
+
 app.use(bodyParser.json());
 app.use((req, res, next) => {
   console.log("SessionID:", req.sessionID);
