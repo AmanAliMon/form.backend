@@ -468,5 +468,9 @@ app.post("/delete", async (req, res) => {
   );
 });
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running at port ${PORT}`));
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`Server running at port ${PORT}`));
+} else {
+  module.exports = app;
+}
