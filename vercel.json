@@ -1,18 +1,22 @@
 {
   "version": 2,
   "builds": [
-    { "src": "index.js", "use": "@vercel/node" }
+    {
+      "src": "index.js",
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["dist/**"] }
+    }
   ],
   "routes": [
-   {
-      "src": "*",
+    {
+      "src": "/(.*)",
       "headers": {
         "Access-Control-Allow-Origin": "https://nephasoft.vercel.app",
         "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
         "Access-Control-Allow-Credentials": "true"
       },
-      "dest": "server.js"
+      "dest": "index.js"
     },
     {
       "src": "/(.*)",
