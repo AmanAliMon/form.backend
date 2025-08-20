@@ -23,43 +23,44 @@ function identifer() {
 
 const app = express();
 
-const corsOptions = {
-  origin: "https://nephasoft.vercel.app",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // 👈 handle preflight everywhere
-
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your frontend origin here
+    credentials: true, // allow cookies and credentials
+  })
+);
+app.use(bodyParser.json());
+app.use((req, res, next) => {
+  console.log("SessionID:", req.sessionID);
+  console.log(
+    "User in session:",
+    req.session ? req.session.user : "No session"
+  );
+  next();
+});
 app.use(
   session({
-    secret: "secret-key", // move to env in prod
+    secret: "secret-key", // use env in pro  duction
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       httpOnly: true,
-      sameSite: "none", // 👈 required for cross-site cookies
-      secure: true,     // 👈 required on Vercel/HTTPS
+      sameSite: "lax",
     },
   })
 );
-//ddd
+
 const sessions = {};
 
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
 
-const mysql = require("mysql2");
-
+// MySQL Connection
 const db = mysql.createConnection({
-  host: "sql306.infinityfree.com",
-  port: 3306,
-  user: "if0_39743019",
-  password: "9WZqZixVgrP",
-  database: "if0_39743019_nephasoft",
-  ssl: { rejectUnauthorized: true } // SkySQL requires SSL
+  host: "serverless-eu-west-3.sysp0000.db1.skysql.com",
+  user: "root",
+  password: "",
+  database: "dbmsl",
 });
 
 db.connect((err) => {
