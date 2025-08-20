@@ -9,7 +9,7 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/.*",
       "dest": "index.js",
       "headers": {
         "Access-Control-Allow-Origin": "https://nephasoft.vercel.app",
