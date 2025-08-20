@@ -25,10 +25,13 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend origin here
-    credentials: true, // allow cookies and credentials
+    origin: "https://nephasoft.vercel.app",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+app.options("*", cors()); // handle preflight
 app.use(bodyParser.json());
 app.use((req, res, next) => {
   console.log("SessionID:", req.sessionID);
