@@ -23,12 +23,18 @@ function identifer() {
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "https://nephasoft.vercel.app",
-    credentials: true, // allow cookies and credentials
-  })
-);
+app.use(cors({
+  origin: "https://nephasoft.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+app.options("*", cors({
+  origin: "https://nephasoft.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(bodyParser.json());
 app.use((req, res, next) => {
   console.log("SessionID:", req.sessionID);
